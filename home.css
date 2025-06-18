@@ -1,0 +1,138 @@
+body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f7;
+      color: #333;
+    }
+    
+    .container {
+      max-width: 1920px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 30px;
+    }
+    
+    .main-content {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-right: 120px;
+    }
+    
+    header {
+      grid-column: 1 / -1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      background-color: #fff;
+    }
+    
+    .logo {
+      height: 60px;
+      padding: 20px;
+    }
+    
+    h1 {
+      color: #cc00ff;
+      margin: 0;
+    }
+    
+    h2, h3 {
+      color: #333;
+      margin-top: 0;
+    }
+    
+    .section {
+      max-width: 700px;
+      height: 200px;
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      margin-left: 120px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .divider {
+      border-top: 1px solid #eee;
+      margin: 20px 0;
+    }
+    
+    .goal-item, .task-item {  
+      background: #f7f4fc;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    
+    .input-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .input-row input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      min-width: 200px;
+    }
+    
+    .difficulty-select {
+      
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #cc00ff;
+      color:white;
+      width: 120px;
+    }
+    
+    .btn {
+      background: #cc00ff;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    
+    .btn:hover {
+      background: #9900cc;
+    }
+    
+    .profile-section {
+      text-align: center;
+    }
+    
+    .profile-link {
+      color: #cc00ff;
+      text-decoration: none;
+      padding-right: 50px;
+    }
+    
+    .growth-section {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #EADFEE;
+      height: 100%;
+      margin-left:-120px
+    }
+    
+    .habik-img {
+      width: 340px;
+      height: auto;
+      margin: 15px 0;
+    }
