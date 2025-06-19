@@ -1,32 +1,88 @@
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flowtask - Регистрация</title>
-  <link rel="stylesheet" href="register.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Хабс - Регистрация</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="register.css">k
 </head>
 <body>
-  <div class="container">
     <header>
-      <img src="logo.jpg" alt="HUBs goals" class="logo">
-    </header>
-    <main>
-      <div class="auth-box">
-        <h2>Приятно познакомиться!</h2>
-        <input type="text" placeholder="Логин">
-        <input type="email" placeholder="Почта">
-        <input type="password" placeholder="Пароль">
-        <input type="password" placeholder="Подтверждение пароля">
-        <button class="btn">Зарегистрироваться</button>
-        <div class="text-switch">
-          <p class="switch">Или <a href="index.html">войти</a></p>
+        <div class="header-content">
+            <img src="logo.png" alt="Habs" class="logo">
         </div>
-       
-      </div>
-    </main>
-    <footer>
-      <div class="footer-text"></div>
-    </footer>
-  </div>
+    </header>
+
+    <div class="auth-container">
+        <div class="auth-box">
+            <div class="auth-header">
+                <h2>Приятно познакомиться!</h2>
+                <h3>Создайте аккаунт, чтобы начать использовать ХАБСАМ</h3>
+            </div>
+
+            <div class="input-field">
+                <label for="username">Логин</label>
+                <input type="text" id="username" placeholder="Придумайте логин">
+                <div class="error-message" id="usernameError">Логин должен содержать от 4 до 20 символов (только буквы, цифры и _)</div>
+            </div>
+
+            <div class="input-field">
+                <label for="email">Электронная почта</label>
+                <input type="email" id="email" placeholder="your@email.com">
+                <div class="error-message" id="emailError">Введите корректный email (разрешены: gmail.com, yandex.ru, mail.ru и другие популярные домены)</div>
+            </div>
+
+            <div class="input-field">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" placeholder="Придумайте пароль">
+                <div class="password-strength">
+                    <div class="strength-meter" id="strengthMeter"></div>
+                </div>
+                <div class="password-hint" id="passwordHint">Пароль должен содержать минимум 8 символов</div>
+                <div class="error-message" id="passwordError">Пароль должен содержать минимум 8 символов, включая цифры и спецсимволы</div>
+                <div class="show-password-container">
+                    <button type="button" class="show-password-btn" id="togglePassword">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 5C5 5 1 12 1 12C1 12 5 19 12 19C19 19 23 12 23 12C23 12 19 5 12 5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Показать пароль
+                    </button>
+                </div>
+            </div>
+
+            <div class="input-field">
+                <label for="confirm-password">Подтверждение пароля</label>
+                <input type="password" id="confirm-password" placeholder="Повторите пароль">
+                <div class="error-message" id="confirmPasswordError">Пароли не совпадают</div>
+                <div class="show-password-container">
+                    <button type="button" class="show-password-btn" id="toggleConfirmPassword">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 5C5 5 1 12 1 12C1 12 5 19 12 19C19 19 23 12 23 12C23 12 19 5 12 5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Показать пароль
+                    </button>
+                </div>
+            </div>
+
+            <button class="submit-btn" id="registerBtn" disabled>Зарегистрироваться</button>
+
+            <div class="auth-footer">
+                Уже есть аккаунт? <a href="login.html">Войдите</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">
+        <div class="notification-icon">!</div>
+        <div class="notification-content">
+            <h4 id="notificationTitle">Ошибка</h4>
+            <p id="notificationMessage">Сообщение об ошибке</p>
+        </div>
+    </div>
+
+    <script src="register.js"></script>
 </body>
 </html>

@@ -1,54 +1,233 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HUBs goals</title>
-  <link rel="stylesheet" href="home.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Карточки задач</title>
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+<header class="header">
   <div class="container">
-    <header>
-      <img src="logo.jpg" alt="HUBs goals" class="logo">
-      <div class="profile-section">
-        <a href="#" class="profile-link">выйти</a>
-      </div>
-    </header>
-    
-    <div class="main-content">
-      <div class="section">
-        <h2>ляляля</h2>
-        <div class="goal-item">ваша цель</div>
-        <div class="input-row">
-          <input type="text" placeholder="название цели...">
-          <button class="btn">создать</button>
-        </div>
-      </div>
-      
-      <div class="divider"></div>
-      
-      <div class="section local2">
-        <h3>добавить задачу к цели...</h3>
-        <div class="task-item">ваша задача</div>
-        <div class="input-row">
-          <input type="text" placeholder="название задачи">
-          <select class="difficulty-select">
-            <option value="">сложность</option>
-            <option value="easy">🟢легкая</option>
-            <option value="medium">🟡средняя</option>
-            <option value="hard">🔴сложная</option>
-          </select>
-          <button class="btn">создать</button>
-        </div>
-      </div>
-    </div>
-    <div class="sidebar">
-      <div class="section growth-section">
-        <h3>рост Хабсика</h3>
-        <p>% или баллы</p>
-        <img src="dino.png" alt="Хабсик" class="habik-img">
-      </div>
+    <!-- Логотип слева -->
+    <a href="#" class="logo">
+      <img src="logo.png" alt="Логотип" class="logo-img">
+    </a>
+
+    <!-- Справа: аватар, настройки, выход -->
+    <div class="header-actions">
+      <img src="avatar.jpg" alt="Аватар" class="header-avatar" id="profileAvatar">
+      <button class="header-btn settings-btn" id="settingsBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+      <button class="header-btn logout" id="logoutBtn">Выйти</button>
     </div>
   </div>
+</header>
+
+<div class="main-content">
+    <div class="left-card">
+        <div class="card tasks-tracker">
+            <div class="tracker-header">
+                <h2 class="tracker-title">Трекер задач</h2>
+                <button class="view-all-btn" id="viewAllTasks">
+                    <i class="fas fa-list"></i> Все задачи
+                </button>
+            </div>
+            
+            <div class="task-form">
+                <input type="text" class="task-input" id="taskInput" placeholder="Добавить новую задачу">
+                <select class="difficulty-select" id="difficultySelect">
+                    <option value="">Сложность</option>
+                    <option value="easy">Легкая</option>
+                    <option value="medium">Средняя</option>
+                    <option value="hard">Сложная</option>
+                </select>
+                <input type="datetime-local" class="datetime-input" id="deadlineInput">
+                <button class="add-task-btn" id="addTaskBtn">Добавить</button>
+            </div>
+            
+            <div class="active-tasks" id="activeTasks">
+                <div class="tasks-header">
+                    <span>Активные задачи</span>
+                    <span class="tasks-count">0 задач</span>
+                </div>
+                
+                <div class="tasks-list" id="tasksList">
+                    <!-- Здесь будут появляться добавленные задачи -->
+                    <div class="empty-tasks">
+                        <div class="empty-icon">📝</div>
+                        <div>У вас пока нет активных задач</div>
+                        <div>Добавьте свою первую задачу</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="upcoming-deadlines" id="upcomingDeadlines">
+                <div class="tasks-header">
+                    <span>Ближайшие дедлайны</span>
+                </div>
+                
+                <div class="deadlines-list" id="deadlinesList">
+                    <!-- Здесь будут появляться задачи с дедлайнами -->
+                    <div class="empty-deadlines">
+                        <div class="empty-icon">⏰</div>
+                        <div>Нет задач с дедлайнами</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="right-card">
+        <div class="card image-card">
+            <div class="image-title">Рост хабсика</div>
+            <div class="image-container">
+                <img src="4.png" alt="Рост хабсика">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно всех задач -->
+<div class="modal-overlay" id="allTasksModal">
+    <div class="modal-card">
+        <button class="close-btn" id="closeAllTasks">&times;</button>
+        <h1 class="modal-title">Все задачи</h1>
+        
+        <div class="task-filters">
+            <button class="filter-btn active" data-filter="all">Все</button>
+            <button class="filter-btn" data-filter="easy">Легкие</button>
+            <button class="filter-btn" data-filter="medium">Средние</button>
+            <button class="filter-btn" data-filter="hard">Сложные</button>
+            <button class="filter-btn" data-filter="deadline">С дедлайном</button>
+        </div>
+        
+        <div class="all-tasks-list" id="allTasksList">
+            <!-- Здесь будут все задачи -->
+            <div class="empty-all-tasks">
+                <div class="empty-icon">📝</div>
+                <div>У вас пока нет задач</div>
+                <div>Добавьте свою первую задачу</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно настроек -->
+<div class="modal-overlay" id="settingsModal">
+    <div class="settings-card">
+        <button class="close-btn" id="closeSettings">&times;</button>
+        <h1 class="settings-title">НАСТРОЙКИ</h1>
+        
+        <div class="setting-item">
+            <div class="setting-name">Тема</div>
+            <div class="theme-switch">
+                <button class="theme-btn active" data-theme="light">Светлая</button>
+                <button class="theme-btn" data-theme="dark">Тёмная</button>
+            </div>
+        </div>
+        
+        <div class="setting-item">
+            <div class="setting-name">Аватар</div>
+            <div class="avatar-upload">
+                <img src="avatar.jpg" alt="Аватар" class="avatar-preview" id="avatarPreview">
+                <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
+                <button class="upload-btn" id="uploadBtn">Выбрать фото</button>
+            </div>
+        </div>
+        
+        <div class="setting-item">
+            <div class="setting-name">Смена пароля</div>
+            <div class="password-change">
+                <input type="password" class="password-input" id="newPassword" placeholder="Новый пароль">
+                <input type="password" class="password-input" id="confirmPassword" placeholder="Повторите пароль">
+            </div>
+        </div>
+        
+        <button class="save-btn" id="saveSettingsBtn">Сохранить изменения</button>
+        
+        <a href="#" class="support-btn">Поддержка</a>
+    </div>
+</div>
+
+<!-- Модальное окно профиля -->
+<div class="modal-overlay" id="profileModal">
+    <div class="profile-card">
+        <button class="close-btn" id="closeProfile">&times;</button>
+        <h1 class="profile-title">ПРОФИЛЬ</h1>
+        
+        <img src="avatar.jpg" alt="Аватар" class="profile-avatar-large" id="profileAvatarLarge">
+        
+        <div class="profile-item">
+            <div class="profile-name">Имя пользователя</div>
+            <div class="profile-value">Хабсик Продуктивный</div>
+        </div>
+        
+        <div class="profile-item">
+            <div class="profile-name">Email</div>
+            <div class="profile-value">haba@example.com</div>
+        </div>
+        
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-value">128</div>
+                <div class="stat-label">Всего задач</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">87</div>
+                <div class="stat-label">Выполнено</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">41</div>
+                <div class="stat-label">В процессе</div>
+            </div>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-title">Прогресс выполнения задач</div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 68%"></div>
+            </div>
+            <div class="progress-label">
+                <span>68% выполнено</span>
+                <span>87 из 128 задач</span>
+            </div>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-title">Сложность задач</div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 30%; background-color: #4CAF50;"></div>
+            </div>
+            <div class="progress-label">
+                <span>Легкие: 30%</span>
+                <span>26 задач</span>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 50%; background-color: #FFC107;"></div>
+            </div>
+            <div class="progress-label">
+                <span>Средние: 50%</span>
+                <span>43 задачи</span>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 20%; background-color: #F44336;"></div>
+            </div>
+            <div class="progress-label">
+                <span>Сложные: 20%</span>
+                <span>18 задач</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="home.js"></script>
 </body>
 </html>

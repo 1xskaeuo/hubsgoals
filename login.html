@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowtask - Вход</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img src="logo.png" alt="habs" class="logo">
+        </div>
+    </header>
+
+    <div class="auth-container">
+        <div class="auth-box">
+            <div class="auth-header">
+                <h2>Добро пожаловать</h2>
+                <h3>Побеждай ежедневно!</h3>
+            </div>
+
+            <div class="input-field" id="emailField">
+                <label for="email">Электронная почта</label>
+                <input type="email" id="email" placeholder="your@email.com">
+                <div class="error-message">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 8V12V8ZM12 16H12.01H12ZM12 22C17.523 22 22 17.523 22 12C22 6.477 17.523 2 12 2C6.477 2 2 6.477 2 12C2 17.523 6.477 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Пожалуйста, введите email</span>
+                </div>
+            </div>
+
+            <div class="input-field" id="passwordField">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" placeholder="Введите пароль">
+                <div class="error-message">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 8V12V8ZM12 16H12.01H12ZM12 22C17.523 22 22 17.523 22 12C22 6.477 17.523 2 12 2C6.477 2 2 6.477 2 12C2 17.523 6.477 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Пожалуйста, введите пароль</span>
+                </div>
+                <div class="show-password-container">
+                    <button type="button" class="show-password-btn" id="togglePassword">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 5C5 5 1 12 1 12C1 12 5 19 12 19C19 19 23 12 23 12C23 12 19 5 12 5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Показать пароль
+                    </button>
+                </div>
+            </div>
+
+            <button class="submit-btn" id="loginBtn">Войти</button>
+
+            <div class="auth-footer">
+                Нет аккаунта? <a href="/register.html">Зарегистрируйтесь</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">
+        <div class="notification-icon">!</div>
+        <div class="notification-content">
+            <h4 id="notificationTitle">Ошибка</h4>
+            <p id="notificationMessage">Сообщение об ошибке</p>
+        </div>
+    </div>
+
+   <script src="login.js"></script>pt
+</body>
+</html>
