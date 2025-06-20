@@ -2070,3 +2070,356 @@ body {
     color: #C62828;
 }
 
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #ff5252;
+    color: white;
+    border-radius: 12px;
+    padding: 18px 24px;
+    box-shadow: 0 6px 20px rgba(255, 82, 82, 0.3);
+    transform: translateX(150%);
+    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    overflow: hidden;
+    z-index: 1000;
+    max-width: 320px;
+    opacity: 0;
+}
+
+.notification.active {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.notification i {
+    font-size: 24px;
+}
+
+.notification-text {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.notification-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.notification-progress::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: white;
+    animation: progress 3s linear forwards;
+}
+
+@keyframes progress {
+    0% { width: 100%; }
+    100% { width: 0%; }
+}
+
+
+   /* Стили для уровня динозаврика */
+.dino-level {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #AB00EA;
+    margin-bottom: 10px;
+}
+
+/* Контейнер прогресс-бара */
+.progress-container {
+    width: 90%;
+    margin: 0 auto 20px;
+    text-align: center;
+}
+
+.progress-bar {
+    height: 20px;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #AB00EA;
+    border-radius: 10px;
+    transition: width 0.5s ease;
+    width: 0%;
+}
+
+.progress-text {
+    font-size: 14px;
+    color: #666;
+    display: flex;
+    justify-content: space-between;
+}   
+
+
+
+
+
+/* //// */
+
+
+
+
+/* ========== ФИКСЫ ДЛЯ АДАПТИВНОСТИ ========== */
+/* Добавь этот код в самый конец CSS файла */
+
+/* Фикс для контейнеров задач */
+.active-tasks, .upcoming-deadlines {
+    min-height: 200px !important;
+    margin-bottom: 20px !important;
+}
+
+.tasks-list, .deadlines-list {
+    min-height: 150px !important;
+}
+
+/* Фиксы для разных размеров экранов */
+@media (max-width: 1200px) {
+    .main-content {
+        flex-direction: column !important;
+        gap: 30px !important;
+    }
+    
+    .left-card, .right-card {
+        width: 100% !important;
+    }
+    
+    .active-tasks, .upcoming-deadlines {
+        min-height: 180px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .active-tasks, .upcoming-deadlines {
+        min-height: 160px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    .task-form {
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+    
+    .task-input,
+    .difficulty-select,
+    .datetime-input,
+    .add-task-btn {
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .active-tasks, .upcoming-deadlines {
+        min-height: 140px !important;
+    }
+}
+
+
+
+/* ========== ЖЕСТКИЙ ФИКС ДЛЯ КАРТОЧЕК ========== */
+.tasks-tracker {
+    height: calc(100vh - 200px) !important; /* Фиксируем высоту */
+    min-height: 500px !important; /* Минимум, чтобы не сжималось слишком сильно */
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 15px !important;
+    overflow: hidden !important; /* Убираем лишние скроллы */
+}
+
+.active-tasks, .upcoming-deadlines {
+    flex: 1 !important;
+    min-height: 0 !important; /* Важно для flex-скролла */
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.tasks-list, .deadlines-list {
+    flex: 1 !important;
+    min-height: 0 !important;
+    overflow-y: auto !important; /* Скролл только внутри списка */
+    border: 1px solid #e9ecef !important;
+    border-radius: 15px !important;
+    background-color: #f8f9fa !important;
+}
+
+/* Убираем дублирующие отступы */
+.empty-tasks, .empty-deadlines {
+    padding: 20px !important;
+    text-align: center !important;
+}
+
+/* Адаптация под мобилки */
+@media (max-width: 768px) {
+    .tasks-tracker {
+        height: auto !important; /* На мобилках пусть растягивается */
+        min-height: 400px !important;
+    }
+}
+
+
+
+
+
+/* ========== КАСТОМНЫЕ КНОПКИ ДЕЙСТВИЙ ========== */
+.task-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.task-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    background: #f0f0f0;
+    color: #555;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+}
+
+.task-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Кнопка "Принять" */
+.task-btn-accept {
+    background: rgba(76, 175, 80, 0.1);
+    color: #4CAF50;
+}
+
+.task-btn-accept:hover {
+    background: rgba(76, 175, 80, 0.2);
+}
+
+.task-btn-accept::after {
+    content: "✓";
+}
+
+.task-item.completed .task-btn-accept {
+    background: #4CAF50;
+    color: white;
+}
+
+/* Кнопка "Редактировать" */
+.task-btn-edit {
+    background: rgba(255, 193, 7, 0.1);
+    color: #FFC107;
+}
+
+.task-btn-edit:hover {
+    background: rgba(255, 193, 7, 0.2);
+}
+
+.task-btn-edit::after {
+    content: "✎";
+}
+
+/* Кнопка "Удалить" */
+.task-btn-delete {
+    background: rgba(244, 67, 54, 0.1);
+    color: #F44336;
+}
+
+.task-btn-delete:hover {
+    background: rgba(244, 67, 54, 0.2);
+}
+
+.task-btn-delete::after {
+    content: "✕";
+}
+
+/* Анимация для кнопки "Принять" */
+@keyframes btnPop {
+    0% { transform: scale(0); }
+    80% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.task-item.completed .task-btn-accept {
+    animation: btnPop 0.3s ease-out;
+}
+
+
+
+
+
+
+.confirm-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.confirm-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.confirm-content h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.confirm-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.confirm-buttons button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.confirm-btn {
+    background: #ff5252;
+    color: white;
+    border: none;
+}
+
+.cancel-btn {
+    background: #f0f0f0;
+    color: #333;
+    border: 1px solid #ddd;
+}

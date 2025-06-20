@@ -1,6 +1,23 @@
 // Данные задач
 let tasks = [];
-
+const XP_PER_LEVEL = {
+    easy: 10,
+    medium: 25,
+    hard: 25000
+};
+let dino = {
+    level: 1,
+    xp: 0,
+    nextLevel: 100
+};
+const BASE_XP = 100;
+const DINO_IMAGES = {
+    1: '1.png',    // Уровни 1-9
+    10: '2.png',   // Уровни 10-19
+    20: '3.png',   // Уровни 20-29
+    30: '4.png',   // Уровни 30-39
+    40: '5.png'    // Уровни 40+
+};
 // Элементы интерфейса
 const taskInput = document.getElementById('taskInput');
 const difficultySelect = document.getElementById('difficultySelect');
@@ -42,7 +59,16 @@ function addTask() {
     const deadline = deadlineInput.value;
     
     if (!taskText) {
-        alert('Введите текст задачи');
+        showNotification('Введите текст задачи', 'error');
+        taskInput.focus();
+        shakeElement(taskInput);
+        return;
+    }
+
+     if (!difficulty) {
+        showNotification('Выберите сложность задачи', 'error');
+        difficultySelect.focus();
+        shakeElement(difficultySelect);
         return;
     }
     
@@ -62,13 +88,190 @@ function addTask() {
     taskInput.value = '';
     difficultySelect.value = '';
     deadlineInput.value = '';
+    
+    // Показываем уведомление об успехе
+    showNotification('Задача добавлена!', 'success');
 }
 
+// Функция показа уведомления
+function showNotification(text, type = 'error') {
+    const notification = document.getElementById('notification');
+    const notificationText = notification.querySelector('.notification-text');
+    const icon = notification.querySelector('i');
+    
+    // Настраиваем стиль по типу
+    notification.className = 'notification';
+    notification.classList.add(type);
+    
+    if (type === 'error') {
+        notification.style.background = '#ff5252';
+        icon.className = 'fas fa-exclamation-circle';
+    } else {
+        notification.style.background = '#4CAF50';
+        icon.className = 'fas fa-check-circle';
+    }
+    
+    notificationText.textContent = text;
+    notification.classList.add('active');
+    
+    // Автоматическое скрытие через 3 секунды
+    setTimeout(() => {
+        notification.classList.remove('active');
+    }, 3000);
+}
+function checkLevelUp() {
+    while (dinoStats.xp >= dinoStats.requiredXp) {
+        dinoStats.xp -= dinoStats.requiredXp;
+        dinoStats.level++;
+        dinoStats.requiredXp = Math.floor(BASE_XP * Math.pow(1.2, dinoStats.level - 1));
+        
+        // Меняем изображение
+        updateDinoImage();
+        
+        // Уведомление о новом уровне
+        showNotification(`🎉 Уровень ${dinoStats.level}!`, 'success');
+    }
+}
+
+// Начисление опыта за выполнение задачи
+function addXP(difficulty) {
+    // Сохраняем текущий уровень ДО начисления опыта
+    const oldLevel = dino.level;
+    
+    // Начисляем опыт (ваш текущий код)
+    const xpGained = XP_PER_LEVEL[difficulty] || 0;
+    dino.xp += xpGained;
+    
+    // Проверка повышения уровня (ваш текущий код)
+    while (dino.xp >= dino.nextLevel) {
+        dino.xp -= dino.nextLevel;
+        dino.level++;
+        dino.nextLevel = Math.floor(dino.nextLevel * 1.2);
+    }
+    
+    // Проверяем, прошли ли мы кратный 10 уровень
+    if (Math.floor(oldLevel / 10) !== Math.floor(dino.level / 10)) {
+        updateDinoImage(); // Меняем картинку только здесь!
+    }
+    
+    updateDinoUI();
+    saveDinoProgress();
+}
+
+
+// Функция для обновления изображения динозаврика
+function updateDinoImage() {
+    const img = document.getElementById('dinoImage');
+    if (!img) {
+        console.error('Элемент dinoImage не найден!');
+        return;
+    }
+
+    // Определяем, какое изображение использовать
+    const milestoneLevels = Object.keys(DINO_IMAGES).map(Number).sort((a,b) => b-a);
+    let imageToUse = DINO_IMAGES[1]; // По умолчанию
+    
+    for (const level of milestoneLevels) {
+        if (dino.level >= level) {
+            imageToUse = DINO_IMAGES[level];
+            break;
+        }
+    }
+
+    // Проверяем, не пытаемся ли загрузить текущее изображение
+    if (img.src.endsWith(imageToUse)) {
+        console.log('Изображение уже актуально');
+        return;
+    }
+
+    // Загружаем новое изображение
+    const testImage = new Image();
+    testImage.onload = function() {
+        img.src = imageToUse;
+        console.log(`Обновлено изображение на уровень ${dino.level}: ${imageToUse}`);
+    };
+    testImage.onerror = function() {
+        console.error(`Ошибка загрузки: ${imageToUse}`);
+        img.src = 'images/dino-level1.png'; // Фолбэк
+    };
+    testImage.src = imageToUse;
+}
+
+
+// Функция для обновления интерфейса
+function updateDinoUI() {
+    const levelElement = document.getElementById('dinoLevel');
+    const xpElement = document.getElementById('currentXP');
+    const nextLevelElement = document.getElementById('requiredXP');
+    const progressBar = document.getElementById('dinoProgress');
+    
+    if (levelElement) levelElement.textContent = dino.level;
+    if (xpElement) xpElement.textContent = dino.xp;
+    if (nextLevelElement) nextLevelElement.textContent = dino.nextLevel;
+    
+    const progressPercent = (dino.xp / dino.nextLevel) * 100;
+    if (progressBar) progressBar.style.width = `${progressPercent}%`;
+    
+    console.log('Интерфейс динозаврика обновлён');
+}
+
+// Функция для сохранения прогресса
+function saveDinoProgress() {
+    localStorage.setItem('dinoProgress', JSON.stringify(dino));
+    console.log('Прогресс сохранён:', dino);
+}
+
+// Функция для загрузки прогресса
+function loadDinoProgress() {
+    try {
+        const saved = localStorage.getItem('dinoProgress');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            
+            // Валидация данных
+            if (parsed && typeof parsed === 'object') {
+                dinoState = {
+                    level: Number(parsed.level) || 1,
+                    xp: Number(parsed.xp) || 0,
+                    requiredXp: Number(parsed.requiredXp) || BASE_XP
+                };
+            }
+            
+            console.log('Прогресс загружен:', dinoState);
+            updateDinoUI();
+            updateDinoImage();
+        }
+    } catch (error) {
+        console.error('Ошибка загрузки прогресса:', error);
+        // Значения по умолчанию
+        dinoState = {
+            level: 1,
+            xp: 0,
+            requiredXp: BASE_XP
+        };
+    }
+    updateDinoImage();
+}
+
+// Анимация "тряски" для инпута
+function shakeElement(element) {
+    element.style.transform = 'translateX(0)';
+    element.animate([
+        { transform: 'translateX(0)' },
+        { transform: 'translateX(-10px)' },
+        { transform: 'translateX(10px)' },
+        { transform: 'translateX(-5px)' },
+        { transform: 'translateX(5px)' },
+        { transform: 'translateX(0)' }
+    ], {
+        duration: 400,
+        iterations: 1
+    });
+}
 // Сохранение задач в localStorage
 function saveTasks() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
-
 // Загрузка задач из localStorage
 function loadTasks() {
     const savedTasks = localStorage.getItem('tasks');
@@ -84,37 +287,33 @@ function updateTasksDisplay() {
     const deadlinesList = document.getElementById('deadlinesList');
     const tasksCount = document.querySelector('.tasks-count');
     
-    // Фильтруем активные задачи (не выполненные)
+    // Получаем только активные (не выполненные) задачи
     const activeTasks = tasks.filter(task => !task.completed);
     
-    // Обновляем счетчик задач
+    // Обновляем счетчик
     tasksCount.textContent = `${activeTasks.length} ${getTaskWord(activeTasks.length)}`;
     
-    // Очищаем списки
+    // Очищаем и пересоздаем список задач
     tasksList.innerHTML = '';
-    deadlinesList.innerHTML = '';
     
-    // Если нет активных задач
     if (activeTasks.length === 0) {
         tasksList.innerHTML = `
             <div class="empty-tasks">
                 <div class="empty-icon">📝</div>
-                <div>У вас пока нет активных задач</div>
-                <div>Добавьте свою первую задачу</div>
+                <div>Нет активных задач</div>
             </div>
         `;
     } else {
-        // Добавляем активные задачи
         activeTasks.forEach(task => {
             const taskElement = createTaskElement(task);
             tasksList.appendChild(taskElement);
         });
     }
     
-    // Фильтруем задачи с дедлайнами
+    // То же самое для дедлайнов
+    deadlinesList.innerHTML = '';
     const tasksWithDeadlines = activeTasks.filter(task => task.deadline);
     
-    // Если нет задач с дедлайнами
     if (tasksWithDeadlines.length === 0) {
         deadlinesList.innerHTML = `
             <div class="empty-deadlines">
@@ -123,14 +322,10 @@ function updateTasksDisplay() {
             </div>
         `;
     } else {
-        // Сортируем задачи по дедлайну (ближайшие сначала)
-        tasksWithDeadlines.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
-        
-        // Добавляем задачи с дедлайнами
-        tasksWithDeadlines.forEach(task => {
-            const deadlineElement = createDeadlineElement(task);
-            deadlinesList.appendChild(deadlineElement);
-        });
+        tasksWithDeadlines.sort((a, b) => new Date(a.deadline) - new Date(b.deadline))
+            .forEach(task => {
+                deadlinesList.appendChild(createDeadlineElement(task));
+            });
     }
 }
 
@@ -388,45 +583,215 @@ function closeAllTasksModal() {
     document.body.style.overflow = '';
 }
 
-// Обработка кликов по задачам
-function handleTaskAction(e) {
+async function handleTaskAction(e) {
     const target = e.target;
+    
+    // Находим ближайший элемент задачи
     const taskElement = target.closest('.task-item');
     if (!taskElement) return;
     
+    // Получаем ID задачи
     const taskId = parseInt(taskElement.dataset.id);
-    const taskIndex = tasks.findIndex(task => task.id === taskId);
+    if (isNaN(taskId)) return;
     
+    // Находим задачу в массиве
+    const taskIndex = tasks.findIndex(task => task.id === taskId);
+    if (taskIndex === -1) return;
+    
+    const task = tasks[taskIndex];
+    
+    // Обработка выполнения задачи
     if (target.closest('.complete-btn') || target.closest('.toggle-btn')) {
-        // Завершение/возобновление задачи
+        try {
+            // Начисляем опыт в зависимости от сложности
+            switch(task.difficulty) {
+                case 'easy': addXP("easy"); break;
+                case 'medium': addXP("medium"); break;
+                case 'hard': addXP("hard"); break;
+                default: addXP(10);
+            }
+            
+            // Удаляем задачу из массива
+            tasks.splice(taskIndex, 1);
+            
+            // Сохраняем и обновляем
+            await saveTasks();
+            updateTasksDisplay();
+            
+            // Уведомление
+            showNotification('Задача выполнена!', 'success');
+        } catch (error) {
+            console.error('Ошибка при выполнении задачи:', error);
+            showNotification('Ошибка при выполнении задачи', 'error');
+        }
+        return;
+    }
+    // Обработка отметки выполнения
+    if (target.closest('.toggle-btn, .complete-btn')) {
         tasks[taskIndex].completed = !tasks[taskIndex].completed;
         saveTasks();
         updateTasksDisplay();
         
-        // Если это было в модальном окне, обновляем его
+        showSuccessNotification(
+            tasks[taskIndex].completed 
+                ? 'Задача завершена!' 
+                : 'Задача возобновлена'
+        );
+        
         if (allTasksModal.classList.contains('active')) {
             const currentFilter = document.querySelector('.filter-btn.active').dataset.filter;
             openAllTasksModal(currentFilter);
         }
-    } else if (target.closest('.edit-btn')) {
-        // Редактирование задачи
-        editTask(taskIndex);
-    } else if (target.closest('.delete-btn')) {
-        // Удаление задачи
-        if (confirm('Вы уверены, что хотите удалить эту задачу?')) {
+    } 
+    // Обработка редактирования
+    else if (target.closest('.edit-btn')) {
+        editTask(taskIndex); // Твоя существующая функция редактирования
+        
+        showNotification(
+            'Редактирование задачи',
+            'Внесите изменения в форму редактирования',
+            'info'
+        );
+    }
+    // Обработка удаления
+    else if (target.closest('.delete-btn')) {
+        const confirmed = await showConfirmDialog(
+            'Удалить задачу?',
+            'Это действие нельзя отменить',
+            'Удалить',
+            'Отмена'
+        );
+        
+        if (confirmed) {
             tasks.splice(taskIndex, 1);
             saveTasks();
             updateTasksDisplay();
             
-            // Если это было в модальном окне, обновляем его
+            showSuccessNotification('Задача удалена');
+            
             if (allTasksModal.classList.contains('active')) {
                 const currentFilter = document.querySelector('.filter-btn.active').dataset.filter;
                 openAllTasksModal(currentFilter);
             }
         }
     }
+}   
+
+// Универсальная функция подтверждения
+function showConfirmDialog(title, message, confirmText, cancelText) {
+    return new Promise((resolve) => {
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            width: 320px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.2s ease-out;
+        `;
+        
+        modal.innerHTML = `
+            <div style="padding: 16px;">
+                <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 8px; color: #111827;">${title}</h3>
+                <p style="color: #6b7280; font-size: 14px;">${message}</p>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 8px; padding: 12px 16px; background-color: #f9fafb; border-top: 1px solid #e5e7eb;">
+                <button class="cancel-btn" style="padding: 6px 12px; border-radius: 4px; color: #374151; background: white; border: 1px solid #d1d5db; cursor: pointer;">
+                    ${cancelText}
+                </button>
+                <button class="confirm-btn" style="padding: 6px 12px; border-radius: 4px; color: white; background: #ef4444; border: none; cursor: pointer;">
+                    ${confirmText}
+                </button>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        setTimeout(() => {
+            modal.style.opacity = '1';
+            modal.style.transform = 'translateY(0)';
+        }, 10);
+        
+        modal.querySelector('.confirm-btn').addEventListener('click', () => {
+            removeModal();
+            resolve(true);
+        });
+        
+        modal.querySelector('.cancel-btn').addEventListener('click', () => {
+            removeModal();
+            resolve(false);
+        });
+        
+        function removeModal() {
+            modal.style.opacity = '0';
+            modal.style.transform = 'translateY(-20px)';
+            setTimeout(() => document.body.removeChild(modal), 200);
+        }
+    });
 }
 
+// Универсальная функция уведомлений
+function showNotification(title, message, type = 'success') {
+    const colors = {
+        success: { bg: '#f0fdf4', text: '#166534', border: '#bbf7d0', icon: 'M5 13l4 4L19 7' },
+        error: { bg: '#fef2f2', text: '#991b1b', border: '#fecaca', icon: 'M6 18L18 6M6 6l12 12' },
+        info: { bg: '#eff6ff', text: '#1e40af', border: '#bfdbfe', icon: 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' }
+    };
+    
+    const notif = document.createElement('div');
+    notif.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        padding: 12px 16px;
+        background: ${colors[type].bg};
+        color: ${colors[type].text};
+        border-radius: 8px;
+        border: 1px solid ${colors[type].border};
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: all 0.2s ease-out;
+    `;
+    
+    notif.innerHTML = `
+        <svg style="width: 20px; height: 20px; margin-right: 8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="${colors[type].icon}" />
+        </svg>
+        <div>
+            <div style="font-weight: 600;">${title}</div>
+            ${message ? `<div style="font-size: 0.9em; margin-top: 2px;">${message}</div>` : ''}
+        </div>
+    `;
+    
+    document.body.appendChild(notif);
+    
+    setTimeout(() => {
+        notif.style.opacity = '1';
+        notif.style.transform = 'translateY(0)';
+    }, 10);
+    
+    setTimeout(() => {
+        notif.style.opacity = '0';
+        notif.style.transform = 'translateY(-20px)';
+        setTimeout(() => document.body.removeChild(notif), 200);
+    }, 3000);
+}
+
+// Алиасы для удобства
+function showSuccessNotification(message, title = 'Успех') {
+    showNotification(title, message, 'success');
+}
 // Редактирование задачи
 function editTask(taskIndex) {
     const task = tasks[taskIndex];
@@ -569,7 +934,8 @@ function setupSettingsSave() {
 // Инициализация приложения
 function init() {
     loadTasks();
-    
+    loadDinoProgress();
+
     // Настройка обработчиков событий
     setupModalControls();
     setupThemeSwitcher();
@@ -680,5 +1046,203 @@ function getTaskWord(count) {
     return 'задач';
 }
 
+
+
+
+
+// Функция обновления статистики профиля
+function updateProfileStats() {
+    // Считаем статистику
+    const totalTasks = tasks.length;
+    const completedTasks = tasks.filter(task => task.completed).length;
+    const activeTasks = totalTasks - completedTasks;
+    const completionPercentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+    
+    // Считаем статистику по сложности
+    const easyTasks = tasks.filter(task => task.difficulty === 'easy').length;
+    const mediumTasks = tasks.filter(task => task.difficulty === 'medium').length;
+    const hardTasks = tasks.filter(task => task.difficulty === 'hard').length;
+    
+    const totalWithDifficulty = easyTasks + mediumTasks + hardTasks;
+    const easyPercentage = totalWithDifficulty > 0 ? Math.round((easyTasks / totalWithDifficulty) * 100) : 0;
+    const mediumPercentage = totalWithDifficulty > 0 ? Math.round((mediumTasks / totalWithDifficulty) * 100) : 0;
+    const hardPercentage = totalWithDifficulty > 0 ? Math.round((hardTasks / totalWithDifficulty) * 100) : 0;
+    
+    // Обновляем основную статистику
+    document.getElementById('totalTasks').textContent = totalTasks;
+    document.getElementById('completedTasks').textContent = completedTasks;
+    document.getElementById('activeTasks').textContent = activeTasks;
+    
+    // Обновляем прогресс выполнения
+    document.getElementById('completionPercent').textContent = `${completionPercentage}%`;
+    document.getElementById('progressFill').style.width = `${completionPercentage}%`;
+    document.getElementById('progressCount').textContent = `${completedTasks} из ${totalTasks} задач`;
+    
+    // Обновляем сложность задач
+    document.getElementById('easyPercent').textContent = `${easyPercentage}%`;
+    document.getElementById('easyProgress').style.width = `${easyPercentage}%`;
+    document.getElementById('easyCount').textContent = `${easyTasks} задач`;
+    
+    document.getElementById('mediumPercent').textContent = `${mediumPercentage}%`;
+    document.getElementById('mediumProgress').style.width = `${mediumPercentage}%`;
+    document.getElementById('mediumCount').textContent = `${mediumTasks} задач`;
+    
+    document.getElementById('hardPercent').textContent = `${hardPercentage}%`;
+    document.getElementById('hardProgress').style.width = `${hardPercentage}%`;
+    document.getElementById('hardCount').textContent = `${hardTasks} задач`;
+    
+    // Добавляем анимацию для прогресс-баров
+    animateProgressBars();
+}
+
+function animateProgressBars() {
+    const progressBars = document.querySelectorAll('.progress-bar-fill, .difficulty-progress');
+    progressBars.forEach(bar => {
+        const width = bar.style.width;
+        bar.style.width = '0';
+        setTimeout(() => {
+            bar.style.width = width;
+        }, 100);
+    });
+}
+
+function awardXP(difficulty) {
+    // Получаем XP за задание
+    const xpGained = XP_RATES[difficulty] || 0;
+    
+    // Добавляем к текущему XP
+    dinoXP += xpGained;
+    
+    // Проверяем уровень
+    while(dinoXP >= xpNeeded) {
+        dinoXP -= xpNeeded;
+        dinoLevel++;
+        xpNeeded = Math.floor(BASE_XP * Math.pow(1.2, dinoLevel-1));
+        
+        // Меняем картинку
+        updateDinoImage();
+        
+        // Показываем уведомление
+        showNotification(`Уровень UP! Теперь у вас ${dinoLevel} уровень`, 'success');
+    }
+    
+    // Обновляем прогресс бар
+    updateProgressBar();
+    
+    // Сохраняем
+    saveDinoProgress();
+}
+
+// В обработчике задач добавляем:
+if (target.closest('.complete-btn, .toggle-btn')) {
+    tasks[taskIndex].completed = !tasks[taskIndex].completed;
+    
+    // Начисляем XP только при завершении (не при отмене)
+    if (tasks[taskIndex].completed) {
+        awardXP(tasks[taskIndex].difficulty);
+    }
+    
+    saveTasks();
+    updateTasksDisplay();
+}
+
+
 // Назначаем обработчик кнопке добавления задачи
 document.getElementById('addTaskBtn').addEventListener('click', addTask);
+
+
+// Пути к картинкам динозавра по десяткам уровней
+
+
+
+async function handleTaskAction(e) {
+    // Находим конкретную кнопку, на которую кликнули
+    const target = e.target.closest('button');
+    if (!target) return;
+    
+    // Находим родительский элемент задачи
+    const taskElement = target.closest('.task-item, .deadline-item');
+    if (!taskElement) return;
+    
+    // Получаем ID задачи
+    const taskId = parseInt(taskElement.dataset.id);
+    if (isNaN(taskId)) return;
+    
+    // Находим задачу в массиве
+    const taskIndex = tasks.findIndex(t => t.id === taskId);
+    if (taskIndex === -1) return;
+    
+    // Обработка завершения задачи
+    if (target.classList.contains('complete-btn') || target.classList.contains('toggle-btn')) {
+        // Начисляем опыт
+        if (!tasks[taskIndex].completed) {
+            addXP(tasks[taskIndex].difficulty);
+        }
+        
+        // УДАЛЯЕМ задачу после завершения (как ты и просил)
+        tasks.splice(taskIndex, 1);
+        saveTasks();
+        updateTasksDisplay();
+        
+        // Обновляем модальное окно, если оно открыто
+        if (allTasksModal.classList.contains('active')) {
+            const currentFilter = document.querySelector('.filter-btn.active').dataset.filter;
+            openAllTasksModal(currentFilter);
+        }
+        
+        showNotification('Задача выполнена и удалена!', 'success');
+        return;
+    }
+    
+    // Обработка редактирования
+    if (target.classList.contains('edit-btn')) {
+        const task = tasks[taskIndex];
+        taskInput.value = task.text;
+        difficultySelect.value = task.difficulty;
+        deadlineInput.value = task.deadline || '';
+        
+        // Удаляем старую задачу
+        tasks.splice(taskIndex, 1);
+        saveTasks();
+        updateTasksDisplay();
+        
+        // Закрываем модальное окно, если открыто
+        if (allTasksModal.classList.contains('active')) {
+            closeAllTasksModal();
+        }
+        
+        showNotification('Редактируйте задачу', 'info');
+        return;
+    }
+    
+    // Обработка удаления
+    if (target.classList.contains('delete-btn')) {
+        const confirmed = await showConfirmDialog(
+            'Удалить задачу?',
+            'Это действие нельзя отменить',
+            'Удалить',
+            'Отмена'
+        );
+        
+        if (confirmed) {
+            tasks.splice(taskIndex, 1);
+            saveTasks();
+            updateTasksDisplay();
+            
+            if (allTasksModal.classList.contains('active')) {
+                const currentFilter = document.querySelector('.filter-btn.active').dataset.filter;
+                openAllTasksModal(currentFilter);
+            }
+            
+            showNotification('Задача удалена', 'success');
+        }
+    }
+}
+
+// Функция для "тряски" элемента при ошибке
+function shakeElement(element) {
+    element.style.animation = 'shake 0.5s';
+    setTimeout(() => {
+        element.style.animation = '';
+    }, 500);
+}
