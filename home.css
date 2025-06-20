@@ -1332,7 +1332,8 @@ body {
 .right-card {
     flex: 0.85;
     min-width: 250px;
-    height: 100%;
+    height: 102%;
+    min-height: 499px;
 }
 
 .card {
@@ -1528,11 +1529,11 @@ body {
     color: #666;
     font-size: 16px;
     text-align: center;
-    gap: 10px;
+    gap: 3px;
 }
 
 .empty-icon {
-    font-size: 50px;
+    font-size: 33px;
     color: #AB00EA;
     opacity: 0.7;
 }
@@ -2422,4 +2423,84 @@ body {
     background: #f0f0f0;
     color: #333;
     border: 1px solid #ddd;
+}
+
+
+
+
+
+
+
+
+
+@media (max-width: 1200px) {
+    .right-card {
+        flex: 1; /* Занимает всю ширину */
+        min-width: auto;
+        margin-top: 20px; /* Отступ от левой карточки */
+    }
+
+    .image-container img {
+        max-height: 350px; /* Чуть уменьшаем высоту */
+    }
+}
+
+@media (max-width: 992px) {
+    .image-container img {
+        max-height: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .right-card {
+        order: 1; /* Можно поменять порядок, если нужно */
+        margin-top: 0;
+    }
+
+    .image-card {
+        padding: 15px; /* Добавляем отступы */
+    }
+
+    .image-container img {
+        max-height: 250px;
+    }
+}
+
+@media (max-width: 576px) {
+    .image-container img {
+        max-height: 200px;
+    }
+
+    .image-title {
+        font-size: 20px; /* Уменьшаем заголовок */
+    }
+}
+
+
+
+
+
+.empty-icon {
+    font-size: 50px;
+}
+
+/* 1600x900 и подобные */
+@media (max-width: 1600px) {
+    .empty-icon {
+        font-size: 40px;
+    }
+}
+
+/* 1366x768 и меньше */
+@media (max-width: 1366px) {
+    .empty-icon {
+        font-size: 25px;
+    }
+}
+
+/* Мобильные устройства */
+@media (max-width: 768px) {
+    .empty-icon {
+        font-size: 20px;
+    }
 }

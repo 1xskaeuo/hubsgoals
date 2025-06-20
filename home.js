@@ -59,14 +59,14 @@ function addTask() {
     const deadline = deadlineInput.value;
     
     if (!taskText) {
-        showNotification('Введите текст задачи', 'error');
+        showNotification("Ошибка!",'Введите текст задачи', 'error');
         taskInput.focus();
         shakeElement(taskInput);
         return;
     }
 
      if (!difficulty) {
-        showNotification('Выберите сложность задачи', 'error');
+        showNotification("Ошибка!",'Выберите сложность задачи', 'error');
         difficultySelect.focus();
         shakeElement(difficultySelect);
         return;
@@ -90,7 +90,7 @@ function addTask() {
     deadlineInput.value = '';
     
     // Показываем уведомление об успехе
-    showNotification('Задача добавлена!', 'success');
+    showNotification("Успешно!",'Задача добавлена!', 'success');
 }
 
 // Функция показа уведомления
@@ -1211,7 +1211,7 @@ async function handleTaskAction(e) {
             closeAllTasksModal();
         }
         
-        showNotification('Редактируйте задачу', 'info');
+        showNotification("Успешно!",'Редактируйте задачу', 'info');
         return;
     }
     
@@ -1234,7 +1234,7 @@ async function handleTaskAction(e) {
                 openAllTasksModal(currentFilter);
             }
             
-            showNotification('Задача удалена', 'success');
+            showNotification("Успешно!",'Задача удалена', 'success');
         }
     }
 }
