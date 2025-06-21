@@ -3,7 +3,7 @@ let tasks = [];
 const XP_PER_LEVEL = {
     easy: 10,
     medium: 25,
-    hard: 25000
+    hard: 250
 };
 let dino = {
     level: 1,
@@ -81,8 +81,7 @@ function addTask() {
         createdAt: new Date()
     };
     
-    tasks.push(newTask);
-    updateTasksDisplay();
+   
     
     // Очищаем поля ввода
     taskInput.value = '';
@@ -91,6 +90,10 @@ function addTask() {
     
     // Показываем уведомление об успехе
     showNotification("Успешно!",'Задача добавлена!', 'success');
+
+    tasks.push(newTask);
+    saveTasks();
+    updateTasksDisplay();
 }
 
 // Функция показа уведомления
@@ -227,29 +230,23 @@ function loadDinoProgress() {
         const saved = localStorage.getItem('dinoProgress');
         if (saved) {
             const parsed = JSON.parse(saved);
-            
-            // Валидация данных
             if (parsed && typeof parsed === 'object') {
-                dinoState = {
+                dino = {
                     level: Number(parsed.level) || 1,
                     xp: Number(parsed.xp) || 0,
-                    requiredXp: Number(parsed.requiredXp) || BASE_XP
+                    nextLevel: Number(parsed.nextLevel) || BASE_XP
                 };
             }
-            
-            console.log('Прогресс загружен:', dinoState);
-            updateDinoUI();
-            updateDinoImage();
         }
     } catch (error) {
         console.error('Ошибка загрузки прогресса:', error);
-        // Значения по умолчанию
-        dinoState = {
+        dino = {
             level: 1,
             xp: 0,
-            requiredXp: BASE_XP
+            nextLevel: BASE_XP
         };
     }
+    updateDinoUI();
     updateDinoImage();
 }
 
@@ -1051,48 +1048,88 @@ function getTaskWord(count) {
 
 
 // Функция обновления статистики профиля
+// Обновление статистики профиля
+// Функция обновления статистики профиля
+// Функция обновления статистики профиля
 function updateProfileStats() {
-    // Считаем статистику
+    // Считаем общую статистику
     const totalTasks = tasks.length;
     const completedTasks = tasks.filter(task => task.completed).length;
-    const activeTasks = totalTasks - completedTasks;
+    const activeTasks = tasks.filter(task => !task.completed).length; // Теперь считаем активные задачи отдельно
     const completionPercentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
-    
-    // Считаем статистику по сложности
-    const easyTasks = tasks.filter(task => task.difficulty === 'easy').length;
-    const mediumTasks = tasks.filter(task => task.difficulty === 'medium').length;
-    const hardTasks = tasks.filter(task => task.difficulty === 'hard').length;
-    
-    const totalWithDifficulty = easyTasks + mediumTasks + hardTasks;
-    const easyPercentage = totalWithDifficulty > 0 ? Math.round((easyTasks / totalWithDifficulty) * 100) : 0;
-    const mediumPercentage = totalWithDifficulty > 0 ? Math.round((mediumTasks / totalWithDifficulty) * 100) : 0;
-    const hardPercentage = totalWithDifficulty > 0 ? Math.round((hardTasks / totalWithDifficulty) * 100) : 0;
-    
-    // Обновляем основную статистику
-    document.getElementById('totalTasks').textContent = totalTasks;
-    document.getElementById('completedTasks').textContent = completedTasks;
-    document.getElementById('activeTasks').textContent = activeTasks;
-    
+
+    // Обновляем DOM элементы
+    const statsContainer = document.querySelector('.stats-container');
+    if (statsContainer) {
+        const statValues = statsContainer.querySelectorAll('.stat-value');
+        statValues[0].textContent = totalTasks;
+        statValues[1].textContent = completedTasks;
+        statValues[2].textContent = activeTasks;
+    }
+
     // Обновляем прогресс выполнения
-    document.getElementById('completionPercent').textContent = `${completionPercentage}%`;
-    document.getElementById('progressFill').style.width = `${completionPercentage}%`;
-    document.getElementById('progressCount').textContent = `${completedTasks} из ${totalTasks} задач`;
-    
-    // Обновляем сложность задач
-    document.getElementById('easyPercent').textContent = `${easyPercentage}%`;
-    document.getElementById('easyProgress').style.width = `${easyPercentage}%`;
-    document.getElementById('easyCount').textContent = `${easyTasks} задач`;
-    
-    document.getElementById('mediumPercent').textContent = `${mediumPercentage}%`;
-    document.getElementById('mediumProgress').style.width = `${mediumPercentage}%`;
-    document.getElementById('mediumCount').textContent = `${mediumTasks} задач`;
-    
-    document.getElementById('hardPercent').textContent = `${hardPercentage}%`;
-    document.getElementById('hardProgress').style.width = `${hardPercentage}%`;
-    document.getElementById('hardCount').textContent = `${hardTasks} задач`;
-    
-    // Добавляем анимацию для прогресс-баров
-    animateProgressBars();
+    const progressContainer = document.querySelector('.progress-container:first-of-type');
+    if (progressContainer) {
+        const progressFill = progressContainer.querySelector('.progress-fill');
+        progressFill.style.width = `${completionPercentage}%`;
+        
+        const progressLabels = progressContainer.querySelectorAll('.progress-label span');
+        progressLabels[0].textContent = `${completionPercentage}% выполнено`;
+        progressLabels[1].textContent = `${completedTasks} из ${totalTasks} задач`;
+    }
+
+    // Обновляем визуализацию активных задач
+    updateActiveTasksVisualization(completedTasks, activeTasks);
+}
+
+// Новая функция для визуализации активных задач
+function updateActiveTasksVisualization(completed, active) {
+    const progressBar = document.querySelector('.progress-bar');
+    if (!progressBar) return;
+
+    // Удаляем старые элементы активных задач
+    const oldActive = progressBar.querySelector('.progress-active');
+    if (oldActive) oldActive.remove();
+
+    if (active > 0) {
+        const total = completed + active;
+        const activePercentage = Math.round((active / total) * 100);
+        
+        // Создаем элемент для активных задач
+        const activeFill = document.createElement('div');
+        activeFill.className = 'progress-active';
+        activeFill.style.width = `${activePercentage}%`;
+        activeFill.style.backgroundColor = '#FFC107'; // Желтый цвет для активных задач
+        
+        // Вставляем перед заполненной частью
+        const progressFill = progressBar.querySelector('.progress-fill');
+        progressBar.insertBefore(activeFill, progressFill);
+    }
+}
+
+// Добавляем вызов этой функции при открытии профиля
+document.getElementById('profileAvatar').addEventListener('click', function() {
+    updateProfileStats();
+    profileModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+});
+
+// Также обновляем статистику при изменении задач
+function saveTasks() {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    updateProfileStats(); // Добавляем обновление статистики
+}
+// Добавляем вызов этой функции при открытии профиля
+document.getElementById('profileAvatar').addEventListener('click', function() {
+    updateProfileStats();
+    profileModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+});
+
+// Также обновляем статистику при изменении задач
+function saveTasks() {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    updateProfileStats(); // Добавляем обновление статистики
 }
 
 function animateProgressBars() {
@@ -1246,3 +1283,32 @@ function shakeElement(element) {
         element.style.animation = '';
     }, 500);
 }
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadDinoProgress();
+    loadTasks();
+    updateTimers();
+    setInterval(updateTimers, 60000); // обновлять таймеры каждую минуту
+
+    // Обработчики
+    addTaskBtn.addEventListener('click', addTask);
+    viewAllBtn.addEventListener('click', () => openAllTasksModal('all'));
+    closeAllTasks.addEventListener('click', closeAllTasksModal);
+    tasksList.addEventListener('click', handleTaskAction);
+    allTasksList.addEventListener('click', handleTaskAction);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Функция обновления статистики профиля

@@ -295,3 +295,106 @@ header {
         margin-bottom: 25px;
     }
 }
+
+/* Добавим в конец файла register.css */
+
+/* Кнопка переключения темы */
+.theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    margin-left: auto;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background-color: rgba(171, 0, 234, 0.1);
+}
+
+.theme-toggle svg {
+    width: 20px;
+    height: 20px;
+    color: #6b6b6b;
+}
+
+.moon-icon {
+    display: none;
+}
+
+/* Темная тема */
+body.dark-theme {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.dark-theme header {
+    background: #1e1e1e;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.dark-theme .auth-box {
+    background: #1e1e1e;
+    box-shadow: 0 15px 50px rgba(112, 0, 153, 0.15);
+}
+
+.dark-theme .input-field input {
+    background: #2d2d2d;
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+.dark-theme .input-field input:focus {
+    background: #2d2d2d;
+    border-color: #AB00EA;
+    box-shadow: 0 0 0 3px rgba(171, 0, 234, 0.2);
+}
+
+.dark-theme .input-field label {
+    color: #aaa;
+}
+
+.dark-theme .auth-header h2 {
+    color: #f0f0f0;
+}
+
+.dark-theme .auth-header h3 {
+    color: #aaa;
+}
+
+.dark-theme .password-hint {
+    color: #777;
+}
+
+.dark-theme .show-password-btn {
+    color: #aaa;
+}
+
+.dark-theme .show-password-btn:hover {
+    color: #AB00EA;
+}
+
+.dark-theme .auth-footer {
+    color: #aaa;
+}
+
+.dark-theme .notification {
+    background: #2d2d2d;
+    color: #e0e0e0;
+}
+
+/* Переключение иконок в темной теме */
+.dark-theme .sun-icon {
+    display: none;
+}
+
+.dark-theme .moon-icon {
+    display: block;
+    color: #AB00EA;
+}

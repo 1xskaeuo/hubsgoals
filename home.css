@@ -2504,3 +2504,979 @@ body {
         font-size: 20px;
     }
 }
+
+.notification {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.notification.error {
+    background: #ff5252 !important;
+    border-left-color: #d32f2f !important;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+
+
+
+
+
+
+/* ========== DARK THEME ========== */
+body.dark-theme {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.dark-theme .header {
+    background-color: #1e1e1e;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .card {
+    background-color: #1e1e1e;
+    border-color: #333;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.dark-theme .card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .nav-link {
+    color: #e0e0e0;
+}
+
+.dark-theme .nav-link:hover {
+    color: #AB00EA;
+}
+
+.dark-theme .task-input,
+.dark-theme .difficulty-select,
+.dark-theme .datetime-input,
+.dark-theme .search-input {
+    background-color: #2d2d2d;
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+.dark-theme .task-input:focus,
+.dark-theme .difficulty-select:focus,
+.dark-theme .datetime-input:focus,
+.dark-theme .search-input:focus {
+    border-color: #AB00EA;
+    box-shadow: 0 0 0 3px rgba(171, 0, 234, 0.3);
+}
+
+.dark-theme .tasks-list,
+.dark-theme .deadlines-list,
+.dark-theme .goals-scroll-container {
+    background-color: #252525;
+    border-color: #333;
+}
+
+.dark-theme .task-item,
+.dark-theme .deadline-item,
+.dark-theme .goal-item {
+    background-color: #2d2d2d;
+    border-color: #3a3a3a;
+}
+
+.dark-theme .task-item:hover,
+.dark-theme .deadline-item:hover,
+.dark-theme .goal-item:hover {
+    background-color: #333;
+}
+
+.dark-theme .empty-tasks,
+.dark-theme .empty-deadlines,
+.dark-theme .empty-all-tasks {
+    color: #aaa;
+}
+
+.dark-theme .tracker-title,
+.dark-theme .tasks-header,
+.dark-theme .goal-title,
+.dark-theme .goal-card-title {
+    color: #e0e0e0;
+}
+
+.dark-theme .tasks-count,
+.dark-theme .missions-count,
+.dark-theme .goal-card-missions,
+.dark-theme .progress-text,
+.dark-theme .stat-label {
+    color: #aaa;
+}
+
+.dark-theme .task-footer,
+.dark-theme .deadline-time,
+.dark-theme .deadline-date {
+    color: #aaa;
+}
+
+.dark-theme .task-action-btn {
+    color: #aaa;
+}
+
+.dark-theme .task-action-btn:hover {
+    color: #AB00EA;
+}
+
+.dark-theme .view-all-btn {
+    background-color: #333;
+    color: #AB00EA;
+}
+
+.dark-theme .view-all-btn:hover {
+    background-color: #AB00EA;
+    color: white;
+}
+
+.dark-theme .image-card {
+    background-color: #252525;
+}
+
+.dark-theme .modal-card,
+.dark-theme .settings-card,
+.dark-theme .profile-card,
+.dark-theme .confirm-content {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+.dark-theme .setting-item,
+.dark-theme .profile-item {
+    border-color: #333;
+}
+
+.dark-theme .theme-btn {
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+.dark-theme .theme-btn:hover {
+    border-color: #AB00EA;
+}
+
+.dark-theme .theme-btn.active {
+    background-color: #AB00EA;
+    color: white;
+}
+
+.dark-theme .password-input {
+    background-color: #2d2d2d;
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+.dark-theme .password-input:focus {
+    border-color: #AB00EA;
+}
+
+.dark-theme .filter-btn {
+    background-color: #2d2d2d;
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+.dark-theme .filter-btn:hover {
+    border-color: #AB00EA;
+    color: #AB00EA;
+}
+
+.dark-theme .filter-btn.active {
+    background-color: #AB00EA;
+    color: white;
+}
+
+.dark-theme .progress-bar {
+    background-color: #333;
+}
+
+.dark-theme ::-webkit-scrollbar-track {
+    background: #252525;
+}
+
+.dark-theme ::-webkit-scrollbar-thumb {
+    background-color: #AB00EA;
+}
+
+/* Специфичные элементы для темной темы */
+.dark-theme .task-item.easy {
+    background-color: rgba(76, 175, 80, 0.15);
+}
+
+.dark-theme .task-item.medium {
+    background-color: rgba(255, 193, 7, 0.15);
+}
+
+.dark-theme .task-item.hard {
+    background-color: rgba(244, 67, 54, 0.15);
+}
+
+.dark-theme .task-item.easy .task-difficulty {
+    background-color: rgba(76, 175, 80, 0.3);
+}
+
+.dark-theme .task-item.medium .task-difficulty {
+    background-color: rgba(255, 193, 7, 0.3);
+}
+
+.dark-theme .task-item.hard .task-difficulty {
+    background-color: rgba(244, 67, 54, 0.3);
+}
+
+.dark-theme .task-timer.urgent {
+    background-color: rgba(244, 67, 54, 0.15);
+}
+
+.dark-theme .task-timer.warning {
+    background-color: rgba(255, 193, 7, 0.15);
+}
+
+.dark-theme .task-timer.normal {
+    background-color: rgba(76, 175, 80, 0.15);
+}
+
+.dark-theme .deadline-item.urgent .deadline-timer {
+    background-color: rgba(244, 67, 54, 0.15);
+}
+
+.dark-theme .deadline-item.warning .deadline-timer {
+    background-color: rgba(255, 193, 7, 0.15);
+}
+
+.dark-theme .deadline-item.normal .deadline-timer {
+    background-color: rgba(76, 175, 80, 0.15);
+}
+
+.dark-theme .stat-item {
+    background-color: #252525;
+}
+
+.dark-theme .stat-item:hover {
+    background-color: #2d2d2d;
+}
+
+.dark-theme .close-btn {
+    color: #aaa;
+}
+
+.dark-theme .close-btn:hover {
+    color: #AB00EA;
+}
+
+.dark-theme .support-btn {
+    color: #AB00EA;
+}
+
+.dark-theme .support-btn:hover {
+    color: #8a2be2;
+}
+
+.dark-theme .goal-card {
+    background-color: #252525;
+    border-color: #333;
+}
+
+.dark-theme .goal-card:hover {
+    background-color: #2d2d2d;
+}
+
+.dark-theme .goal-card-tasks {
+    border-color: #333;
+}
+
+.dark-theme .goal-card-task {
+    border-color: #333;
+}
+
+/* Анимации для темной темы */
+@keyframes darkPulse {
+    0% { box-shadow: 0 0 0 0 rgba(171, 0, 234, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(171, 0, 234, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(171, 0, 234, 0); }
+}
+
+.dark-theme .header-btn:hover {
+    animation: darkPulse 1.5s infinite;
+}
+
+/* Эффект неона для логотипа в темной теме */
+.dark-theme .logo {
+    text-shadow: 0 0 5px rgba(171, 0, 234, 0.5);
+}
+
+/* Стили для переключателя темы */
+.theme-switch-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+}
+
+.theme-toggle-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #AB00EA;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.theme-toggle-btn:hover {
+    transform: scale(1.1) rotate(30deg);
+    box-shadow: 0 0 15px rgba(171, 0, 234, 0.7);
+}
+
+.dark-theme .theme-toggle-btn {
+    background-color: #8a2be2;
+}
+
+
+/* ========== ДОПОЛНЕНИЕ К ТЕМНОЙ ТЕМЕ ========== */
+.dark-theme .tasks-tracker .card {
+    background-color: #1e1e1e;
+    border-color: #333;
+}
+
+.dark-theme .active-tasks,
+.dark-theme .upcoming-deadlines {
+    /* background-color: #252525 !important; */
+}
+
+.dark-theme .tasks-list,
+.dark-theme .deadlines-list {
+    background-color: #2d2d2d !important;
+    border-color: #3a3a3a !important;
+}
+
+.dark-theme .task-item,
+.dark-theme .deadline-item {
+    background-color: #333 !important;
+    border-color: #444 !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-theme .task-item:hover,
+.dark-theme .deadline-item:hover {
+    background-color: #3a3a3a !important;
+}
+
+.dark-theme .task-text,
+.dark-theme .deadline-text {
+    color: #e0e0e0 !important;
+}
+
+.dark-theme .task-footer,
+.dark-theme .deadline-time {
+    color: #aaa !important;
+}
+
+.dark-theme .empty-tasks,
+.dark-theme .empty-deadlines {
+    color: #777 !important;
+}
+
+.dark-theme .empty-icon {
+    color: #AB00EA !important;
+    opacity: 0.7;
+}
+
+.dark-theme .tracker-title {
+    color: #AB00EA !important;
+}
+
+.dark-theme .tasks-header {
+    border-bottom-color: #444 !important;
+}
+
+/* Стили для статусов задач в темной теме */
+.dark-theme .task-item.easy {
+    background-color: rgba(46, 125, 50, 0.2) !important;
+    border-left-color: #2E7D32 !important;
+}
+
+.dark-theme .task-item.medium {
+    background-color: rgba(255, 143, 0, 0.2) !important;
+    border-left-color: #FF8F00 !important;
+}
+
+.dark-theme .task-item.hard {
+    background-color: rgba(198, 40, 40, 0.2) !important;
+    border-left-color: #C62828 !important;
+}
+
+/* Кнопки действий в темной теме */
+.dark-theme .task-btn {
+    background: #444 !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-theme .task-btn:hover {
+    background: #555 !important;
+}
+
+.dark-theme .task-btn-accept {
+    background: rgba(76, 175, 80, 0.3) !important;
+    color: #4CAF50 !important;
+}
+
+.dark-theme .task-btn-edit {
+    background: rgba(255, 193, 7, 0.3) !important;
+    color: #FFC107 !important;
+}
+
+.dark-theme .task-btn-delete {
+    background: rgba(244, 67, 54, 0.3) !important;
+    color: #F44336 !important;
+}
+
+/* Скроллбар в темной теме */
+.dark-theme .tasks-list::-webkit-scrollbar-thumb,
+.dark-theme .deadlines-list::-webkit-scrollbar-thumb {
+    background: #AB00EA !important;
+}
+
+.dark-theme .tasks-list::-webkit-scrollbar-track,
+.dark-theme .deadlines-list::-webkit-scrollbar-track {
+    background: #252525 !important;
+}
+
+/* Модальное окно - максимально широкое */
+.modal-overlay .profile-card {
+    width: 95%;
+    max-width: 1200px; /* В 1.5 раза шире стандартного */
+    padding: 50px;
+    border-radius: 25px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+}
+
+/* Супер-стильный скроллбар */
+.profile-card::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.profile-card::-webkit-scrollbar-track {
+    background: rgba(171, 0, 234, 0.1);
+    border-radius: 10px;
+}
+
+.profile-card::-webkit-scrollbar-thumb {
+    background: linear-gradient(#AB00EA, #8a2be2);
+    border-radius: 10px;
+    border: 2px solid #f3e9ff;
+}
+
+.profile-card::-webkit-scrollbar-thumb:hover {
+    background: #8a2be2;
+}
+
+/* Шапка профиля - премиум версия */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #AB00EA;
+    box-shadow: 0 10px 30px rgba(171, 0, 234, 0.3);
+    position: relative;
+    z-index: 1;
+}
+
+.profile-avatar::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border-radius: 50%;
+    border: 2px dashed #AB00EA;
+    opacity: 0.5;
+    animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.profile-info {
+    flex: 1;
+    min-width: 300px;
+    position: relative;
+}
+
+.profile-name {
+    font-size: 36px;
+    font-weight: 800;
+    color: #333;
+    margin-bottom: 5px;
+    letter-spacing: 0.5px;
+}
+
+.profile-email {
+    color: #666;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.profile-bio {
+    color: #555;
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 600px;
+}
+
+/* Статистика уровня GOD */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin: 40px 0;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    border: none;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(171, 0, 234, 0.05), rgba(138, 43, 226, 0.1));
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(171, 0, 234, 0.2);
+}
+
+.stat-card:hover::before {
+    opacity: 1;
+}
+
+.stat-card:nth-child(1) { border-left: 5px solid #AB00EA; }
+.stat-card:nth-child(2) { border-left: 5px solid #8a2be2; }
+.stat-card:nth-child(3) { border-left: 5px solid #6a1b9a; }
+.stat-card:nth-child(4) { border-left: 5px solid #4a148c; }
+
+.stat-icon {
+    font-size: 24px;
+    color: #AB00EA;
+    margin-bottom: 15px;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background: rgba(171, 0, 234, 0.1);
+    border-radius: 12px;
+}
+
+.stat-value {
+    font-size: 42px;
+    font-weight: 800;
+    color: #333;
+    margin: 10px 0;
+    background: linear-gradient(135deg, #AB00EA, #8a2be2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.stat-label {
+    color: #666;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.stat-trend {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #4CAF50;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.stat-trend.negative {
+    color: #F44336;
+}
+
+/* Прогресс-бар премиум класса */
+.task-progress {
+    margin: 40px 0;
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.progress-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.progress-title i {
+    color: #AB00EA;
+    font-size: 26px;
+}
+
+.progress-percent {
+    font-size: 28px;
+    font-weight: 800;
+    color: #AB00EA;
+}
+
+.progress-bar-container {
+    height: 12px;
+    background: #f0f0f0;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 20px 0;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #AB00EA, #8a2be2);
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        rgba(255,255,255,0.1) 0%, 
+        rgba(255,255,255,0.3) 50%, 
+        rgba(255,255,255,0.1) 100%);
+    animation: progressShine 2s infinite;
+}
+
+@keyframes progressShine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.progress-details {
+    display: flex;
+    justify-content: space-between;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Детализация задач - ультра уровень */
+.task-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.task-stat {
+    background: white;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.task-stat:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(171, 0, 234, 0.15);
+}
+
+.task-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #f3e9ff, #e0c6ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #AB00EA;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.task-details {
+    flex: 1;
+}
+
+.task-category {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.task-count {
+    color: #666;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.task-count span {
+    color: #AB00EA;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.task-percent {
+    margin-top: 10px;
+    height: 4px;
+    background: #f0f0f0;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.task-percent-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #AB00EA, #8a2be2);
+    border-radius: 2px;
+}
+
+/* Темная тема - luxury version */
+.dark-theme .profile-card {
+    background: #121212;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+}
+
+.dark-theme .profile-name {
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(171, 0, 234, 0.3);
+}
+
+.dark-theme .profile-email {
+    color: #bbb;
+}
+
+.dark-theme .profile-bio {
+    color: #ccc;
+}
+
+.dark-theme .stat-card {
+    background: #1e1e1e;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .stat-card::before {
+    background: linear-gradient(135deg, rgba(171, 0, 234, 0.1), rgba(138, 43, 226, 0.15));
+}
+
+.dark-theme .stat-value {
+    background: linear-gradient(135deg, #AB00EA, #8a2be2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.dark-theme .stat-label {
+    color: #aaa;
+}
+
+.dark-theme .task-progress {
+    background: #1e1e1e;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .progress-title {
+    color: #fff;
+}
+
+.dark-theme .progress-bar-container {
+    background: #333;
+}
+
+.dark-theme .task-stat {
+    background: #1e1e1e;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.dark-theme .task-category {
+    color: #fff;
+}
+
+.dark-theme .task-count {
+    color: #aaa;
+}
+
+/* Анимации */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.profile-avatar {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Адаптив для огромных экранов */
+@media (min-width: 1600px) {
+    .modal-overlay .profile-card {
+        max-width: 1400px;
+    }
+    
+    .stats-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .task-stats {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 1200px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .profile-avatar {
+        margin: 0 auto;
+    }
+    
+    .profile-bio {
+        margin: 0 auto;
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .modal-overlay .profile-card {
+        padding: 40px 30px;
+    }
+    
+    .stats-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .modal-overlay .profile-card {
+        padding: 30px 20px;
+    }
+    
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .task-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .profile-name {
+        font-size: 28px;
+    }
+}
+
+
+/* Стили для скроллбара в модальных окнах (настройки/профиль) */
+.modal-card::-webkit-scrollbar,
+.settings-card::-webkit-scrollbar,
+.profile-card::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.modal-card::-webkit-scrollbar-track,
+.settings-card::-webkit-scrollbar-track,
+.profile-card::-webkit-scrollbar-track {
+    background: rgba(171, 0, 234, 0.1);
+    border-radius: 10px;
+}
+
+.modal-card::-webkit-scrollbar-thumb,
+.settings-card::-webkit-scrollbar-thumb,
+.profile-card::-webkit-scrollbar-thumb {
+    background: linear-gradient(#AB00EA, #8a2be2);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.modal-card::-webkit-scrollbar-thumb:hover,
+.settings-card::-webkit-scrollbar-thumb:hover,
+.profile-card::-webkit-scrollbar-thumb:hover {
+    background: #8a2be2;
+}
+
+/* Для темной темы */
+.dark-theme .modal-card::-webkit-scrollbar-track,
+.dark-theme .settings-card::-webkit-scrollbar-track,
+.dark-theme .profile-card::-webkit-scrollbar-track {
+    background: rgba(171, 0, 234, 0.2);
+}
+
+.dark-theme .modal-card::-webkit-scrollbar-thumb,
+.dark-theme .settings-card::-webkit-scrollbar-thumb,
+.dark-theme .profile-card::-webkit-scrollbar-thumb {
+    background: linear-gradient(#AB00EA, #6a1b9a);
+}

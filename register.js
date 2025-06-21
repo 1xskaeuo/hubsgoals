@@ -370,3 +370,25 @@
  validatePassword();
  validateConfirmPassword();
  checkFormValidity();
+
+
+ // Добавим в начало register.js
+
+// Элементы для темы
+const themeToggle = document.getElementById('themeToggle');
+const body = document.body;
+
+// Проверяем сохраненную тему
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+    body.classList.add('dark-theme');
+}
+
+// Обработчик переключения темы
+themeToggle.addEventListener('click', () => {
+    body.classList.toggle('dark-theme');
+    
+    // Сохраняем выбор пользователя
+    const isDark = body.classList.contains('dark-theme');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+});
